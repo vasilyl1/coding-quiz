@@ -1,0 +1,203 @@
+:root {
+  /*main text size*/
+  --fontSize: 16px;
+  /*text colors*/
+  --textColor: white;
+  --textScoresColor: rgb(95, 95, 95);
+  --viewScoresTextColor: rgb(213, 23, 190);
+  /*text background colors*/
+  --viewScoresTextBackground: rgb(199, 169, 230);
+  /*button background*/
+  --buttonBackgtoundColor: rgb(44, 40, 117);
+
+}
+
+/*
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+*/
+
+box0 {
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-radius: 1%;
+  padding: 3%;
+  margin: 3%;
+  min-width: 160px;
+}
+
+box1 {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+box2 {
+  display: none;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  margin-left: 5%;
+  margin-right: 5%;
+  /*justify-content: flex-start;*/
+}
+
+box2 h4 {
+  /*Right/wrong messages*/
+  font-weight: normal;
+  color: var(--textScoresColor);
+  font-size: 120%;
+  font-style: italic;
+}
+
+box2 button {
+  text-align: left;
+}
+
+box3 {
+  display: none;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: 5%;
+  margin-right: 5%;
+  text-align: center;
+  justify-content: center;
+}
+
+box3 h2 { /*initial quiz instructions*/
+  font-weight: normal;
+  font-size: 90%;
+  padding: 1%
+}
+
+
+
+box4 {
+  display: none;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-left: 5%;
+  margin-right: 5%;
+  justify-content: center;
+}
+
+box4 h3 {
+  /*final score message*/
+  font-weight: normal;
+  font-size: 120%;
+  text-align: left;
+  padding: 2%;
+}
+
+box5 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+box5 button{/*submit button for initials*/
+  margin: 1%;
+}
+
+box6 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+box7 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+box8 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+box8 ul {
+  /*highest scores list items*/
+  font-size: 100%;
+  padding: 1%;
+  background-color: var(--viewScoresTextBackground);
+  margin: 1%;
+}
+
+box9 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+box9 button {
+display: block;
+
+}
+
+#trueResult {/*right/wrong message*/
+  border-style: solid none none none;
+  border-color: var(--textScoresColor);
+  padding-top: 3%;
+  margin-top: 10%;
+}
+
+#viewScores {
+  /* message displaying the scores */
+  color: var(--viewScoresTextColor);
+  font-weight: normal;
+  font-size: 80%;
+  text-align: center;
+}
+
+#timer {
+  font-weight: normal;
+  font-size: 80%;
+}
+
+h0 {
+  font-size: 120%;
+  font-weight: bold;
+  padding: 4%;
+  display: flex;
+}
+
+#title {
+  font-size: 150%;
+  text-align: left;
+  padding: 10%;
+  padding-bottom: 3%;
+}
+
+button {
+  display: flex;
+  border-color: var(--buttonBackgtoundColor);
+  border-style: solid;
+  border-radius: 6%;
+  color: var(--textColor);
+  padding: 1% 8%;
+  text-align: center;
+  font-size: 100%;
+  font-weight: lighter;
+  margin: 1%;
+  cursor: pointer;
+  background-color: var(--buttonBackgtoundColor);
+
+}
+
+
+body {
+  
+}
+
+
+
+@media (max-width: 500px) {
+  .btn {
+    font-size: 0.8rem;
+  }
+}

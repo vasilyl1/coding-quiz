@@ -13,17 +13,17 @@ let quizContent = [
   },
   {
     question: "Arrays in JavaScript can be used to store ___________.",
-    answers: [ "numbers and strings", "other arrays", "booleans", "all of the above"],
+    answers: ["numbers and strings", "other arrays", "booleans", "all of the above"],
     correct: 4
   },
   {
     question: "String values must be enclosed within _______ when being assigned to variables.",
-    answers: [ "commas", "curly brackets", "quotes", "parenthesis",],
+    answers: ["commas", "curly brackets", "quotes", "parenthesis",],
     correct: 3
   },
   {
     question: "A very useful tool used during development and debugging for printing content to the debugger is:",
-    answers: [ "JavaScript", "terminal/bash", "for loops", "console log" ],
+    answers: ["JavaScript", "terminal/bash", "for loops", "console log"],
     correct: 4
   }
 ];
@@ -50,15 +50,16 @@ let buttonGoBack = document.querySelector("buttonGoBack");
 let buttonClearScores = document.querySelector("buttonClearScores");
 let secondsLeft = 100; // seconds for the timer
 let questionId = 0; // current question number
+let userScore = 0; // quiz score
 
-// timer function, secondsLeft is the integer for how many seconds to run
-let runTimer = function (secondsLeft) {
+// timer, secondsLeft is the integer for how many seconds to run
+let runTimer = function () { // setinterval calls this function every 1000 milliseconds
   // Sets interval in variable
   let timerInterval = setInterval(function () {
     secondsLeft--;
     timer.textContent = "Time: " + secondsLeft; // updates timer on the page
     if (secondsLeft === 0) {
-      clearInterval(timerInterval);
+      clearInterval(timerInterval); // clears the timer - beware of recursive behaviour
       // Calls function to display the quiz score - end of game
 
       return;
@@ -66,7 +67,7 @@ let runTimer = function (secondsLeft) {
   }, 1000);
 }
 
-// function to run the quiz questions
+// displays quiz questions
 let displayQuizQuestion = function (i) {
   title.textContent = quizContent[i].question; // display the question
   button1.textContent = quizContent[i].answers[0]; // update buttons
@@ -75,34 +76,65 @@ let displayQuizQuestion = function (i) {
   button4.textContent = quizContent[i].answers[3];
 }
 
+//changes the button color and displays correct/wrong
+let quizQuestionValidate = function (button, buttonId) { 
+// button - DOM button descriptor; buttonId shows the answer selection
+  button.setAttribute("style", "background-color: var(--viewScoresTextColor)"); // change button background
+  if (quizContent[questionId].correct === buttonId) { // correct answer
+    trueResult.textContent = "Correct!"; // set the message value    
+    userScore++; //increase user score  
+  } else { // incorrect answer
+    trueResult.textContent = "Wrong!";
+    secondsLeft = secondsLeft - 10; // decrease the timer
+  }
+  trueResult.setAttribute("style", "display: flex"); // display the message
+  if (questionId < quizContent.length) { questionId++;}
+  if (questionId === quizContent.length) { // end of quiz questions
+    title.textContent = "All done!";
+    message1.textContent = "Your final score is " + userScore; // update user score
+    box2.setAttribute("style", "display: none"); // hide box2
+    box4.setAttribute("style", "display: flex"); // switch on box4
+    input1.addEventListener ("click", function () { // inputs initials
+
+    });
+    return;
+  } else { // proceed to the next question
+    button.setAttribute("style", "background-color: var(--buttonBackgtoundColor)"); // revert back selected button
+    displayQuizQuestion(questionId); // display the question by Id
+  }
+
+}
+
 // This function is being called below and will run when the page loads.
 let init = function () {
 
-  // Add event listener to start the quiz and timer once user presses the button
-  buttonStart.addEventListener("click", function () {
-    // starts the timer and calls another function to display quiz 
-    secondsLeft = 20;
-    runTimer(secondsLeft);
+  title.textContent = "Coding Quiz Challenge"; // reset the title on a page
+
+  buttonStart.addEventListener("click", function () { // listen to start the quiz
+    runTimer(secondsLeft); // starts the timer, secondsLeft defined globally
     trueResult.setAttribute("style", "display: none"); //hide correct/wrong header
     box3.setAttribute("style", "display: none"); // hide the box3
-    box2.setAttribute("style","display: flex"); // display the box2
-
+    box2.setAttribute("style", "display: flex"); // display the box2
     displayQuizQuestion(questionId); // display the question by Id
-
-    button1.addEventListener("click", function () { // listen for the button click
-      button1.setAttribute("style", "background-color: var(--viewScoresTextColor)"); // change button background
-      if (quizContent[questionId].correct === 1) { // correct answer
-        trueResult.textContent = "Correct!"; // set the message value      
-      } else { // incorrect answer
-        trueResult.textContent = "Wrong!";
-        secondsLeft = secondsLeft - 10; // decrease the timer
-      }
-      trueResult.setAttribute("style","display: flex"); // display the message
-      questionId --;
-      if (questionId < 0) {return;} // end of the quiz
-    }); // end of button1 listener
-
   }); // end of button start listener
+
+  button1.addEventListener("click", function () { // listen for the button click
+    quizQuestionValidate(button1,1); // validates the answer
+  }); // end of button listener
+
+  button2.addEventListener("click", function () { // listen for the button click
+    quizQuestionValidate(button2,2); // validates the answer
+  }); // end of button listener
+
+  button3.addEventListener("click", function () { // listen for the button click
+    quizQuestionValidate(button3,3); // validates the answer
+  }); // end of button listener
+
+  button4.addEventListener("click", function () { // listen for the button click
+    quizQuestionValidate(button4,4); // validates the answer
+  }); // end of button listener
+
+
 }
 
 // Calls init to retrieve data and render it to the page on load

@@ -28,6 +28,14 @@ let quizContent = [
   }
 ];
 
+//array of objects with initials and scores
+let scoresContent = [
+  {
+    initials: "AB",
+    score: -1
+  }
+];
+
 // pointers to CSS variables
 let viewScores = document.querySelector("#viewScores"); // upper left link to view the scores
 let timer = document.querySelector("#timer"); // string with the timer value
@@ -77,9 +85,8 @@ let displayQuizQuestion = function (i) {
 }
 
 //changes the button color and displays correct/wrong
-let quizQuestionValidate = function (button, buttonId) { 
-// button - DOM button descriptor; buttonId shows the answer selection
-  button.setAttribute("style", "background-color: var(--viewScoresTextColor)"); // change button background
+let quizQuestionValidate = function (button, buttonId) {
+  // button - DOM button descriptor; buttonId shows the answer selection
   if (quizContent[questionId].correct === buttonId) { // correct answer
     trueResult.textContent = "Correct!"; // set the message value    
     userScore++; //increase user score  
@@ -88,18 +95,45 @@ let quizQuestionValidate = function (button, buttonId) {
     secondsLeft = secondsLeft - 10; // decrease the timer
   }
   trueResult.setAttribute("style", "display: flex"); // display the message
-  if (questionId < quizContent.length) { questionId++;}
+  if (questionId < quizContent.length) { questionId++; }
   if (questionId === quizContent.length) { // end of quiz questions
     title.textContent = "All done!";
-    message1.textContent = "Your final score is " + userScore; // update user score
+    message1.textContent = "Your final score is " + userScore + "."; // update user score
     box2.setAttribute("style", "display: none"); // hide box2
-    box4.setAttribute("style", "display: flex"); // switch on box4
-    input1.addEventListener ("click", function () { // inputs initials
+    box4.setAttribute("style", "display: flex"); // switch on box4 - input initials and score
+    buttonSubmit.addEventListener("click", function () { // inputs initials
+      // input1.value, local storage, ul scores
+      //
+      let i = -1; // user score position in the scores array
+      if (scoresContent[0].score === -1) { // this is the newly declared array
+        scoresContent[0] = { initials: input1.value, score: userScore };
+      } else {
+        for (let j = 0; j++; j < scoresContent.length) {
+          if (scoresContent[j].score < userScore) {
+            scoresContent.splice(j, 0, { initials: input1.value, score: userScore });
+            i = j;
+          }
+        }
+        if (i === -1) { // the user has the lowest score, push to the end of the array
+          scoresContent.push({ initials: input1.value, score: userScore });
+        }
+      }
+      userScore = 0; // reset the user score
+      box4.setAttribute("style", "display: none"); // hide box4
+      while (scores.children.length > 0) { // clear the list of scores in DOM
+        scores.removeChild(scores.firstChild);
+      }
+      for (j = 0; j < scoresContent.length; j++) { // add first 8 list items with the scores
+        let li = document.createElement("li");
+        i = j + 1;
+        li.textContent = i + ". " + scoresContent[j].initials + " - " + scoresContent[j].score;
+        scores.appendChild(li); // append the list of items with the initials and scores
+      }
 
+      box8.setAttribute("style", "display: flex"); // switch on box8
     });
     return;
   } else { // proceed to the next question
-    button.setAttribute("style", "background-color: var(--buttonBackgtoundColor)"); // revert back selected button
     displayQuizQuestion(questionId); // display the question by Id
   }
 
@@ -119,19 +153,19 @@ let init = function () {
   }); // end of button start listener
 
   button1.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button1,1); // validates the answer
+    quizQuestionValidate(button1, 1); // validates the answer
   }); // end of button listener
 
   button2.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button2,2); // validates the answer
+    quizQuestionValidate(button2, 2); // validates the answer
   }); // end of button listener
 
   button3.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button3,3); // validates the answer
+    quizQuestionValidate(button3, 3); // validates the answer
   }); // end of button listener
 
   button4.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button4,4); // validates the answer
+    quizQuestionValidate(button4, 4); // validates the answer
   }); // end of button listener
 
 

@@ -59,7 +59,7 @@ box2 button {
 }
 
 box3 {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   margin-left: 5%;
@@ -116,7 +116,7 @@ box7 {
 }
 
 box8 {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   flex-direction: column;
 }
@@ -157,13 +157,6 @@ display: block;
 #timer {
   font-weight: normal;
   font-size: 80%;
-}
-
-h0 {
-  font-size: 120%;
-  font-weight: bold;
-  padding: 4%;
-  display: flex;
 }
 
 #title {

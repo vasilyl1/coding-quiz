@@ -132,11 +132,7 @@ box8 ul {
 box9 {
   display: flex;
   flex-wrap: wrap;
-}
-
-box9 button {
-display: block;
-
+  flex-direction: row;
 }
 
 #trueResult {/*right/wrong message*/
@@ -168,6 +164,7 @@ display: block;
 
 button {
   display: flex;
+  align-items: center;
   border-color: var(--buttonBackgtoundColor);
   border-style: solid;
   border-radius: 6%;

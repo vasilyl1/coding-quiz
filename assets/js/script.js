@@ -54,16 +54,17 @@ let message1 = document.querySelector("#message1"); // your final score message
 let input1 = document.querySelector("#input1"); // your initials input
 let buttonSubmit = document.querySelector("#buttonSubmit"); // button to submit the input1 initials
 let scores = document.querySelector("#scores"); // list with the highest scores
-let buttonGoBack = document.querySelector("buttonGoBack");
-let buttonClearScores = document.querySelector("buttonClearScores");
+let buttonBack = document.getElementById("buttonBack");
+let buttonClearScores = document.getElementById("buttonClearScores");
 let secondsLeft = 100; // seconds for the timer
 let questionId = 0; // current question number
 let userScore = 0; // quiz score
+let timerInterval = 0; //timer interval for runTimer 
 
 // timer, secondsLeft is the integer for how many seconds to run
 let runTimer = function () { // setinterval calls this function every 1000 milliseconds
   // Sets interval in variable
-  let timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     secondsLeft--;
     timer.textContent = "Time: " + secondsLeft; // updates timer on the page
     if (secondsLeft === 0) {
@@ -77,6 +78,7 @@ let runTimer = function () { // setinterval calls this function every 1000 milli
 
 // displays quiz questions
 let displayQuizQuestion = function (i) {
+  
   title.textContent = quizContent[i].question; // display the question
   button1.textContent = quizContent[i].answers[0]; // update buttons
   button2.textContent = quizContent[i].answers[1];
@@ -84,7 +86,7 @@ let displayQuizQuestion = function (i) {
   button4.textContent = quizContent[i].answers[3];
 }
 
-//changes the button color and displays correct/wrong
+// validates questions
 let quizQuestionValidate = function (button, buttonId) {
   // button - DOM button descriptor; buttonId shows the answer selection
   if (quizContent[questionId].correct === buttonId) { // correct answer
@@ -94,49 +96,17 @@ let quizQuestionValidate = function (button, buttonId) {
     trueResult.textContent = "Wrong!";
     secondsLeft = secondsLeft - 10; // decrease the timer
   }
-  trueResult.setAttribute("style", "display: flex"); // display the message
+  trueResult.setAttribute("style", "display: flex"); // display the right/wrong message
   if (questionId < quizContent.length) { questionId++; }
   if (questionId === quizContent.length) { // end of quiz questions
     title.textContent = "All done!";
     message1.textContent = "Your final score is " + userScore + "."; // update user score
     box2.setAttribute("style", "display: none"); // hide box2
     box4.setAttribute("style", "display: flex"); // switch on box4 - input initials and score
-    buttonSubmit.addEventListener("click", function () { // inputs initials
-      // input1.value, local storage, ul scores
-      //
-      let i = -1; // user score position in the scores array
-      if (scoresContent[0].score === -1) { // this is the newly declared array
-        scoresContent[0] = { initials: input1.value, score: userScore };
-      } else {
-        for (let j = 0; j++; j < scoresContent.length) {
-          if (scoresContent[j].score < userScore) {
-            scoresContent.splice(j, 0, { initials: input1.value, score: userScore });
-            i = j;
-          }
-        }
-        if (i === -1) { // the user has the lowest score, push to the end of the array
-          scoresContent.push({ initials: input1.value, score: userScore });
-        }
-      }
-      userScore = 0; // reset the user score
-      box4.setAttribute("style", "display: none"); // hide box4
-      while (scores.children.length > 0) { // clear the list of scores in DOM
-        scores.removeChild(scores.firstChild);
-      }
-      for (j = 0; j < scoresContent.length; j++) { // add first 8 list items with the scores
-        let li = document.createElement("li");
-        i = j + 1;
-        li.textContent = i + ". " + scoresContent[j].initials + " - " + scoresContent[j].score;
-        scores.appendChild(li); // append the list of items with the initials and scores
-      }
-
-      box8.setAttribute("style", "display: flex"); // switch on box8
-    });
-    return;
+    
   } else { // proceed to the next question
     displayQuizQuestion(questionId); // display the question by Id
   }
-
 }
 
 // This function is being called below and will run when the page loads.
@@ -144,32 +114,84 @@ let init = function () {
 
   title.textContent = "Coding Quiz Challenge"; // reset the title on a page
 
-  buttonStart.addEventListener("click", function () { // listen to start the quiz
-    runTimer(secondsLeft); // starts the timer, secondsLeft defined globally
-    trueResult.setAttribute("style", "display: none"); //hide correct/wrong header
-    box3.setAttribute("style", "display: none"); // hide the box3
-    box2.setAttribute("style", "display: flex"); // display the box2
-    displayQuizQuestion(questionId); // display the question by Id
-  }); // end of button start listener
-
-  button1.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button1, 1); // validates the answer
-  }); // end of button listener
-
-  button2.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button2, 2); // validates the answer
-  }); // end of button listener
-
-  button3.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button3, 3); // validates the answer
-  }); // end of button listener
-
-  button4.addEventListener("click", function () { // listen for the button click
-    quizQuestionValidate(button4, 4); // validates the answer
-  }); // end of button listener
-
-
 }
 
 // Calls init to retrieve data and render it to the page on load
 init();
+
+buttonStart.addEventListener("click", function () { // listen to start the quiz
+  runTimer(secondsLeft); // starts the timer, secondsLeft defined globally
+  trueResult.setAttribute("style", "display: none"); //hide correct/wrong header
+  box3.setAttribute("style", "display: none"); // hide the box3
+  box2.setAttribute("style", "display: flex"); // display the box2
+  displayQuizQuestion(questionId); // display the question by Id
+}); // end of button start listener
+
+button1.addEventListener("click", function () { // listen for the button click
+  quizQuestionValidate(button1, 1); // validates the answer
+}); // end of button listener
+
+button2.addEventListener("click", function () { // listen for the button click
+  quizQuestionValidate(button2, 2); // validates the answer
+}); // end of button listener
+
+button3.addEventListener("click", function () { // listen for the button click
+  quizQuestionValidate(button3, 3); // validates the answer
+}); // end of button listener
+
+button4.addEventListener("click", function () { // listen for the button click
+  quizQuestionValidate(button4, 4); // validates the answer
+}); // end of button listener
+
+buttonSubmit.addEventListener("click", function () { // inputs initials for scoring
+  // input1.value, local storage, ul scores
+  //
+  let i = -1; // user score position in the scores array
+  if (scoresContent[0].score === -1) { // this is the newly declared array
+    scoresContent[0] = { initials: input1.value, score: userScore };
+  } else {
+    for (let j = 0; j++; j < scoresContent.length) {
+      if (scoresContent[j].score < userScore) {
+        scoresContent.splice(j, 0, { initials: input1.value, score: userScore });
+        i = j;
+      }
+    }
+    if (i === -1) { // the user has the lowest score, push to the end of the array
+      scoresContent.push({ initials: input1.value, score: userScore });
+    }
+  }
+  userScore = 0; // reset the user score
+  box4.setAttribute("style", "display: none"); // hide box4
+  while (scores.children.length > 0) { // clear the list of scores in DOM
+    scores.removeChild(scores.firstChild);
+  }
+  for (j = 0; j < scoresContent.length; j++) { // add first 8 list items with the scores
+    let li = document.createElement("li");
+    i = j + 1;
+    li.textContent = i + ". " + scoresContent[j].initials + " - " + scoresContent[j].score;
+    scores.appendChild(li); // append the list of items with the initials and scores
+  }
+  box8.setAttribute("style", "display: flex"); // switch on box8
+}); // enf of submit initials code
+
+buttonClearScores.addEventListener("click", function () { //removing scores as per user request
+  scoresContent.length = 1;
+  scoresContent[0].score = -1;
+  while (scores.children.length > 0) { // clear the list of scores in DOM
+    scores.removeChild(scores.firstChild);
+  }
+}); // end of clear scores code
+
+buttonBack.addEventListener("click", function () { // start another quiz
+  title.textContent = "Coding Quiz Challenge";
+  questionId = 0;
+  secondsLeft = 100;
+  clearInterval(timerInterval); // clears existing timer
+  userScore = 0;
+  runTimer(secondsLeft); // starts the timer, secondsLeft defined globally
+  trueResult.setAttribute("style", "display: none"); //hide correct/wrong header
+  box8.setAttribute("style", "display: none"); // hide box8
+  box2.setAttribute("style", "display: flex"); // display the box2
+  displayQuizQuestion(questionId); // display the question by Id
+  
+});

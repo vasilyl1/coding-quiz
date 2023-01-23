@@ -1,29 +1,36 @@
-# coding-quiz
+# Coding Quiz
+
 A typical coding assessment is a combination of multiple-choice questions and interactive coding challenges.
 
 
 ## Description
 
-Password Generator Utility is an application that an employee can use to generate a random password based on criteria they've selected. This app runs in the browser, and features dynamically updated HTML and CSS powered by JavaScript code.
+Coding assessment is a timing coding quiz with multiple-choice questions. This appliction runs in the browser and features dynamically updated HTML and CSS powered by JavaScript code.
 
 ## Installation
 
 An app is live on Internet and requires to enter and run the following URL from the browser:
 
-https://vasilyl1.github.io/password-generator/
+https://vasilyl1.github.io/coding-quiz
 
 
 ## Usage
 
-An app is prompting the user for the multiple password generation criteria's - such as the lenght of the password and type of symbols and characters allowed. Once the user defines these criteria's, the newly generated password is displayed in the box and the copy of the password is stored in the browser textarea placeholder element.
+The user clicks the button with the answer, if the answer is incorrect the timer is substracted by ten seconds. Once the answer is clicked, the message correct/wrong displayed and the quiz moves to the next question.
 
-The two screenshots below feature the starting page and the result of the application:
+Once the quiz is over, the user can save initials and will see the five best scores displayed on the screen.
+
+At any time during the process, there is an opportunity to click on "view high scores" link. If the link is clicked, the quiz and timer stops and the user is presented up to five of the highest scores, sorted from highest to lowest.
+
+The four screenshots below feature the starting page and the result of the application:
 
 ![Screenshot1](./assets/images/screenshot1.png)
 
-This is the result once the user defined all the criteria's:
-
 ![Screenshot2](./assets/images/screenshot2.png)
+
+![Screenshot3](./assets/images/screenshot3.png)
+
+![Screenshot4](./assets/images/screenshot4.png)
 
 ## Credits
 

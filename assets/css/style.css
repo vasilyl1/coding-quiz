@@ -183,6 +183,12 @@ button:hover {
   background-color: var(--viewScoresTextColor);
 }
 
+#viewScores:hover {
+  color: var(--buttonBackgtoundColor);
+  font-weight: bold;
+  cursor: pointer;
+}
+
 body {
   
 }
